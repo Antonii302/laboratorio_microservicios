@@ -69,20 +69,10 @@ module.exports = class BreedsController{
     getBreedByBreedTypeAndBreedAccredited(req, res) {
         const { breedType, breedAccredited } = req.params;
         
-        const breed = new Breeds();
-        const breedsByTpe = breed.findSome('tipo', breedType);
+        const breeds = new Breeds();
+        breeds.breeds = breeds.findSome('tipo', breedType);
 
-        console.log(breedsByTpe)
-
-        const breedsByAccredited = [];
-
-        breedsByTpe.forEach((breed) => {
-            if (breed['acreditado'] === 'true') breedsByAccredited.push(breed);
-            if (breed['acreditado'] === 'false')  breedsByAccredited.push(breed);;
-            if (breed['acreditado'] === '-')  breedsByAccredited.push(breed);;
-        });
-
-        console.log(breedsByAccredited)
+        const breedsByAccredited = breeds.findSome('acreditado', breedAccredited);
 
         return res.status(200).send(successfullyResponse({
             microservice: 'Breeds service',

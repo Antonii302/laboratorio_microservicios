@@ -7,36 +7,32 @@ const router = Router();
 const { findAll } = require('../models/awards.model');
 const { successfullyResponse, unsuccessfulResponse } = require('../helpers/data.helpers');
 
-const connectToDatabase = () => {
-    const db = new sqlite3.Database('database/awards.db');
-    
-    const awards = [];
+const db = new sqlite3.Database('database/awards.db');
 
-    db.all("SELECT * FROM campeonatos", (err, rows) => {
-        if (!err) {
-            rows.forEach((row) => awards.push(row));
-        }
-    });    
+const awards = [];
 
-    router.get('/', (req, res) => {
-        const allRecords = findAll(awards);
+db.all("SELECT * FROM campeonatos", (err, rows) => {
+    if (!err) {
+        rows.forEach((row) => awards.push(row));
+    }
+});    
 
-        console.log(allRecords)
+console.log(awards)
 
-        if (typeof allRecords === 'undefined' || allRecords === null) {
-            return res.status(404).json(unsuccessfulResponse({
-                message: 'Lo sentimos. No hemos encontrado registro alguno',
-                microservice: 'Awards service'
-            }));
-        }
+router.get('/', (req, res) => {
+    const allRecords = findAll(awards);
 
-        return res.status(200).send(successfullyResponse({
-            microservice: 'Awards',
-            data: allRecords
+    if (typeof allRecords === 'undefined' || allRecords === null) {
+        return res.status(404).json(unsuccessfulResponse({
+            message: 'Lo sentimos. No hemos encontrado registro alguno',
+            microservice: 'Awards service'
         }));
-    });
-}
+    }
 
-connectToDatabase()
+    return res.status(200).send(successfullyResponse({
+        microservice: 'Awards',
+        data: allRecords
+    }));
+});
 
 module.exports = router;
