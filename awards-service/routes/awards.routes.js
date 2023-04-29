@@ -1,10 +1,42 @@
 const { Router } = require('express');
 
-const AwardsController = require('../controllers/awards.controller');
-const awards = new AwardsController();
+const sqlite3 = require('sqlite3').verbose();
 
 const router = Router();
 
-router.get('/', awards.getAwards);
+const { findAll } = require('../models/awards.model');
+const { successfullyResponse, unsuccessfulResponse } = require('../helpers/data.helpers');
+
+const connectToDatabase = () => {
+    const db = new sqlite3.Database('database/awards.db');
+    
+    const awards = [];
+
+    db.all("SELECT * FROM campeonatos", (err, rows) => {
+        if (!err) {
+            rows.forEach((row) => awards.push(row));
+        }
+    });    
+
+    router.get('/', (req, res) => {
+        const allRecords = findAll(awards);
+
+        console.log(allRecords)
+
+        if (typeof allRecords === 'undefined' || allRecords === null) {
+            return res.status(404).json(unsuccessfulResponse({
+                message: 'Lo sentimos. No hemos encontrado registro alguno',
+                microservice: 'Awards service'
+            }));
+        }
+
+        return res.status(200).send(successfullyResponse({
+            microservice: 'Awards',
+            data: allRecords
+        }));
+    });
+}
+
+connectToDatabase()
 
 module.exports = router;
