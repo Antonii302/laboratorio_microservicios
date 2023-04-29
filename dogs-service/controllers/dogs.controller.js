@@ -20,11 +20,11 @@ module.exports = class DogsController{
         }));
     }
 
-    getDogById(req, res) {
+    getDogByOwner(req, res) {
         const { searchFilter } = req.params;
 
         const dogs = new Dogs();
-        const oneDog = dogs.findOne('Id', searchFilter);
+        const oneDog = dogs.findSome('pais_origen_dueno', searchFilter);
 
         if (typeof oneDog === 'undefined' || oneDog === null) {
             return res.status(404).json(unsuccessfulResponse({

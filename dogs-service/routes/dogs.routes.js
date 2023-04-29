@@ -6,6 +6,6 @@ const dogsController = new DogsController();
 const router = Router();
 
 router.get('/', dogsController.getDogs);
-router.get('/:searchFilter', dogsController.getDogById);
+router.get('/owner/:searchFilter', dogsController.getDogByOwner);
 
 module.exports = router;
