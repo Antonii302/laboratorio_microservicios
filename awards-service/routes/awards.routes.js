@@ -1,38 +1,39 @@
 const { Router } = require('express');
 
-const sqlite3 = require('sqlite3').verbose();
-
 const router = Router();
 
-const { findAll } = require('../models/awards.model');
+const needle = require('needle');
+
+const database = require('better-sqlite3')('database/awards.db');
+
 const { successfullyResponse, unsuccessfulResponse } = require('../helpers/data.helpers');
 
-const db = new sqlite3.Database('database/awards.db');
+router.get('/award/:id', async (req, res) => {
+    const { id } = req.params;
 
-const awards = [];
+    const temporaryArray = []
+    const temporaryObject= {};
 
-db.all("SELECT * FROM campeonatos", (err, rows) => {
-    if (!err) {
-        rows.forEach((row) => awards.push(row));
-    }
-});    
+    const oneAward = database.prepare('SELECT * FROM campeonatos WHERE id = ?').get(id);
+    temporaryObject['campeonato'] = oneAward;
 
-console.log(awards)
+    const id_campeon = oneAward['id_campeon'];
 
-router.get('/', (req, res) => {
-    const allRecords = findAll(awards);
+    const oneDog = await needle(`http://localhost:4000/api/v1/dogs/${id_campeon}`);
+    temporaryObject['perro'] = oneDog.body.data;
 
-    if (typeof allRecords === 'undefined' || allRecords === null) {
-        return res.status(404).json(unsuccessfulResponse({
-            message: 'Lo sentimos. No hemos encontrado registro alguno',
-            microservice: 'Awards service'
-        }));
-    }
+    temporaryArray.push(temporaryObject);
+    console.log(temporaryArray)
 
     return res.status(200).send(successfullyResponse({
-        microservice: 'Awards',
-        data: allRecords
+        microservice: 'Breeds service',
+        extraDetail: `Campeonato: ${oneAward['categoria_ganada']} y perro: ${oneDog['nombre_perro']}`,
+        data: temporaryArray
     }));
+});
+
+router.get('/owner/:searchFilter', async (req, res) => {
+
 });
 
 module.exports = router;
