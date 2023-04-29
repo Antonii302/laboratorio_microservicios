@@ -40,4 +40,13 @@ module.exports = class BreedsController{
             data: oneBreed
         }));
     }
+
+    getAverageLifeExpectancyByCountryOrigin(req, res) {
+        const { searchFilter } = req.params;
+
+        const breeds = new Breeds();
+        const someBreeds = breeds.findSome('pais_origen', searchFilter);
+        
+        console.log(someBreeds)
+    }
 }

@@ -12,11 +12,9 @@ module.exports = class Breeds {
 
     findAll() { return this.breeds; }
 
-    findSome(searchFilter) {
+    findSome(targetKey, searchFilter) {
         return this.breeds.filter((object) => {
-            return Object.keys(object).some((key) => {
-                return object[key].toString() === searchFilter;
-            });
+            return object[targetKey].toString() === searchFilter;
         });
     }
 
