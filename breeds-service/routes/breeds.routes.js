@@ -6,6 +6,6 @@ const breedsController = new BreedsController();
 const router = Router();
 
 router.get('/', breedsController.getBreeds);
-router.get('/:searchFilter', breedsController.getBreedById);
+router.get('/average/:searchFilter', breedsController.getAverageLifeExpectancyByCountryOrigin);
 
 module.exports = router;

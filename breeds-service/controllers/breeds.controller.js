@@ -45,8 +45,24 @@ module.exports = class BreedsController{
         const { searchFilter } = req.params;
 
         const breeds = new Breeds();
-        const someBreeds = breeds.findSome('pais_origen', searchFilter);
-        
-        console.log(someBreeds)
+        const someBreeds = breeds.findSome('pais_de_origen', searchFilter);
+
+        if (typeof someBreeds === 'undefined' || someBreeds === null) {
+            return res.status(404).json(unsuccessfulResponse({
+                message: 'Lo sentimos. No hemos encontrado algún registro que coincida con el parámetro establecido',
+                microservice: 'Breeds service'
+            }));
+        }
+
+        const lifeExpectancies = someBreeds.map((breed) => parseInt(breed['expectativa_de_vida']));
+
+        const sumOfLifeExpectancy = lifeExpectancies.reduce((accumulator, currentValue) => accumulator + currentValue);
+        const averageOfLifeExpectancy = sumOfLifeExpectancy / lifeExpectancies.length;
+
+        return res.status(200).send(successfullyResponse({
+            microservice: 'Breeds service',
+            extraDetail: 'Promedio de esperanza de vida por país de origen',
+            data: averageOfLifeExpectancy + `, esperanza de vida en ${searchFilter}`
+        }));
     }
 }

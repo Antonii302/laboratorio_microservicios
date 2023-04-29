@@ -1,10 +1,10 @@
 const { request, response } = require('express');
 
-const successfullyResponse = ({ microservice, data }) => {
+const successfullyResponse = ({ microservice, extraDetail, data }) => {
     return {
         message: 'Solicitud exitosa',
         Microservice: microservice,
-        dataLength: data.length,
+        extraDetail: extraDetail || data.length,
         data: data,
         currentDate: currentDate()
     };
