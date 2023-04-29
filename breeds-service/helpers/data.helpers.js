@@ -4,7 +4,7 @@ const successfullyResponse = ({ microservice, extraDetail, data }) => {
     return {
         message: 'Solicitud exitosa',
         Microservice: microservice,
-        extraDetail: extraDetail || data.length,
+        extraDetail: extraDetail || data.length + ' registros',
         data: data,
         currentDate: currentDate()
     };
