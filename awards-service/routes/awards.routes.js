@@ -32,8 +32,23 @@ router.get('/award/:id', async (req, res) => {
     }));
 });
 
-router.get('/owner/:searchFilter', async (req, res) => {
+router.get('/:id', async (req, res) => {
 
+    const { id } = req.params;
+
+    const temporaryArray = []
+    const temporaryObject= {};
+
+    const oneAward = database.prepare('SELECT * FROM campeonatos WHERE id_campeon = ?').get(id);
+    temporaryObject['campeonato'] = oneAward;
+
+    temporaryArray.push(temporaryObject)
+    
+    return res.status(200).send(successfullyResponse({
+        microservice: 'Breeds service',
+        extraDetail: `Campeonatos`,
+        data: temporaryArray
+    }));
 });
 
 module.exports = router;

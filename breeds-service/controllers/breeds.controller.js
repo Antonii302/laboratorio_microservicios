@@ -5,20 +5,22 @@ const { successfullyResponse, unsuccessfulResponse } = require('../helpers/data.
 const Breeds = require('../models/breeds.model');
 
 module.exports = class BreedsController{
-    getBreeds(req, res) {
-        const breeds = new Breeds();
-        const allRecords = breeds.findAll();
+    getBreed(req, res) {
+        const { searchFilter } = req.params;
 
-        if (typeof allRecords === 'undefined' || allRecords === null) {
+        const breeds = new Breeds();
+        const oneRecord = breeds.findOne('raza', searchFilter);
+
+        if (typeof oneRecord === 'undefined' || oneRecord === null) {
             return res.status(404).json(unsuccessfulResponse({
-                message: 'Lo sentimos. No hemos encontrado registro alguno',
+                message: 'Lo sentimos. No hemos encontrado algún registro que coincida con los parámetros de búsqueda',
                 microservice: 'Breeds service'
             }));
         }
 
         return res.status(200).send(successfullyResponse({
             microservice: 'Breeds',
-            data: allRecords
+            data: oneRecord
         }));
     }
 

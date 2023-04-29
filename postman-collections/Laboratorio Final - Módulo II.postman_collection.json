@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "04283c2e-f30b-4649-83ca-a20b8e7cab9c",
+		"name": "Laboratorio Final - Módulo II",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26563809"
+	},
+	"item": [
+		{
+			"name": "Breeds",
+			"item": [
+				{
+					"name": "Get Promedio expectativa_vida por país_origen - punto 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/breeds/average/Inglaterra",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"breeds",
+								"average",
+								"Inglaterra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Raza por tipo y acreditación - punto 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/breeds/breedTypeAndBreedAccredited/compania/-",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"breeds",
+								"breedTypeAndBreedAccredited",
+								"compania",
+								"-"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dogs",
+			"item": [
+				{
+					"name": "Get dogs by dueño",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/v1/dogs/owner/Mexico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"dogs",
+								"owner",
+								"Mexico"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Awards",
+			"item": [
+				{
+					"name": "Get campeonado y perro ganador - Punto 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/awards/award/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"awards",
+								"award",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
